@@ -6,6 +6,8 @@ import com.attus.entity.Pessoa;
 import com.attus.repository.PessoaRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +20,7 @@ public class PessoaService {
         this.pessoaRepository = pessoaRepository;
     }
 
-    public void criarPessoa(String nome, String dataNascimento) {
+    public void criarPessoa(String nome, LocalDate dataNascimento) {
         Pessoa pessoa = new Pessoa(nome, dataNascimento);
         pessoaRepository.save(pessoa);
 
@@ -32,10 +34,10 @@ public class PessoaService {
     }
 
 
-    public void editarPessoa(Long id, String pessoaAtualizada) {
+    public void editarPessoa(Long id, String nomeAtualizado, LocalDate pessoaAtualizada) {
         Pessoa pessoaExistente = pessoaRepository.findById(id).orElse(null);
         if (pessoaExistente != null) {
-            pessoaExistente.setNomeCompleto(pessoaAtualizada);
+            pessoaExistente.setNomeCompleto(nomeAtualizado);
             pessoaExistente.setDataNascimento(pessoaAtualizada);
             pessoaRepository.save(pessoaExistente);
         } else {

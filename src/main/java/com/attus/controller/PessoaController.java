@@ -6,6 +6,7 @@ import com.attus.entity.Pessoa;
 import com.attus.service.PessoaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +23,10 @@ public class PessoaController {
 
 
     @PostMapping
-    public ResponseEntity<Void> criarPessoa(@RequestBody PessoaDTO pessoaDTO) {
+    @Transactional
+    @ResponseStatus(HttpStatus.CREATED)
+    public void criarPessoa(@RequestBody PessoaDTO pessoaDTO) {
         pessoaService.criarPessoa(pessoaDTO.nomeCompleto(), pessoaDTO.dataNascimento());
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/pessoas")
@@ -36,7 +38,7 @@ public class PessoaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> editarPessoa(@PathVariable Long id, @RequestBody PessoaDTO pessoaDTO) {
-        pessoaService.editarPessoa(id, pessoaDTO.nomeCompleto());
+        pessoaService.editarPessoa(id, pessoaDTO.nomeCompleto(), pessoaDTO.dataNascimento());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

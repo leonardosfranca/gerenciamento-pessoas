@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -13,21 +14,27 @@ public class Pessoa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nomeCompleto;
-    private String dataNascimento;
+    private LocalDate dataNascimento;
 
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Endereco> enderecos;
 
     @JsonIgnore
-    public Pessoa() {
+    public Pessoa(String nomeCompleto, LocalDate dataNascimento) {
+        this.nomeCompleto = nomeCompleto;
+        this.dataNascimento = dataNascimento;
     }
 
-    public Pessoa(Long id, String nomeCompleto, String dataNascimento, List<Endereco> enderecos) {
+    public Pessoa(Long id, String nomeCompleto, LocalDate dataNascimento, List<Endereco> enderecos) {
         this.id = id;
         this.nomeCompleto = nomeCompleto;
         this.dataNascimento = dataNascimento;
         this.enderecos = enderecos;
+    }
+
+    public Pessoa() {
+
     }
 
     public void adicionarEndereco(Endereco endereco) {
@@ -37,8 +44,6 @@ public class Pessoa {
 
     public List<Endereco> listarEnderecos() {
         return this.enderecos;
-    }
-    public Pessoa(String nome, String dataNascimento) {
     }
 
     public Long getId() {
@@ -57,11 +62,11 @@ public class Pessoa {
         this.nomeCompleto = nomeCompleto;
     }
 
-    public String getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
