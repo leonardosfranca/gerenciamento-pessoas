@@ -1,9 +1,13 @@
 package com.attus.service;
 
+import com.attus.dto.PessoaDTO;
 import com.attus.entity.Endereco;
 import com.attus.entity.Pessoa;
 import com.attus.repository.PessoaRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PessoaService {
@@ -19,6 +23,14 @@ public class PessoaService {
         pessoaRepository.save(pessoa);
 
     }
+
+    public List<PessoaDTO> listarPessoas() {
+        List<Pessoa> pessoas = pessoaRepository.findAll(); // Assumindo que você tenha um repository para acesso ao banco de dados
+        return pessoas.stream()
+                .map(pessoa -> new PessoaDTO(pessoa.getNomeCompleto(), pessoa.getDataNascimento()))
+                .collect(Collectors.toList());
+    }
+
 
     public void editarPessoa(Long id, String pessoaAtualizada) {
         Pessoa pessoaExistente = pessoaRepository.findById(id).orElse(null);

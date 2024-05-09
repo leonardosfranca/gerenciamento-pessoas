@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 public class PessoaController {
@@ -24,6 +26,13 @@ public class PessoaController {
         pessoaService.criarPessoa(pessoaDTO.nomeCompleto(), pessoaDTO.dataNascimento());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @GetMapping("/pessoas")
+    public ResponseEntity<List<PessoaDTO>> listarPessoas() {
+        List<PessoaDTO> pessoas = pessoaService.listarPessoas();
+        return new ResponseEntity<>(pessoas, HttpStatus.OK);
+    }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> editarPessoa(@PathVariable Long id, @RequestBody PessoaDTO pessoaDTO) {

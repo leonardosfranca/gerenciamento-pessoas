@@ -1,5 +1,7 @@
 package com.attus.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -14,8 +16,10 @@ public class Pessoa {
     private String dataNascimento;
 
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Endereco> enderecos;
 
+    @JsonIgnore
     public Pessoa() {
     }
 

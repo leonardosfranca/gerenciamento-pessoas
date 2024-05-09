@@ -1,5 +1,6 @@
 package com.attus.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +17,7 @@ public class Endereco {
 
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
+    @JsonBackReference
     private Pessoa pessoa;
 
     public Endereco() {
